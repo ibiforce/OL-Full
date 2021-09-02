@@ -1,0 +1,22 @@
+FROM php:7.1-fpm
+
+#COPY ["scripts/php-configure.sh", "/opt/bin/"]
+#RUN /bin/bash /opt/bin/php-configure.sh
+
+RUN apt-get -qy update
+RUN apt-get install -qy locales libicu-dev zlib1g-dev libghc-postgresql-libpq-dev git libcurl4-openssl-dev vim netcat postgresql python-setuptools libpng-dev libjpeg-dev
+RUN locale-gen C.UTF-8
+RUN /usr/sbin/update-locale LANG=C.UTF-8
+RUN apt-get autoremove -y
+RUN apt-get clean all
+
+RUN docker-php-ext-configure pgsql --with-pgsql=/usr/include/postgresql/
+RUN docker-php-ext-configure gd --with-jpeg-dir=/usr/include/
+RUN docker-php-ext-install -j$(nproc) pdo pgsql pdo_pgsql pdo_mysql mysqli intl opcache bcmath zip curl gd
+RUN docker-php-ext-enable curl gd
+
+RUN usermod --non-unique --uid 1000 www-data
+RUN rm -rf /var/www/html/*
+RUN usermod -s /bin/bash www-data
+
+COPY php.ini /usr/local/etc/php/php.ini
