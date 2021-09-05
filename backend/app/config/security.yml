@@ -22,9 +22,14 @@ security:
         seller_provider:
             id: oloy.user.seller_provider
     firewalls:
-        app_bundle:
-            pattern:  ^/api/ibagus/list
-            methods: ["GET"]
+        app_bundle_point_list:
+            pattern:  ^/api/point/list
+            methods: ["POST"]
+            stateless: true
+            anonymous: true
+        app_bundle_point_detail:
+            pattern:  ^/api/point/detail
+            methods: ["POST"]
             stateless: true
             anonymous: true
         admin_login:
@@ -206,7 +211,6 @@ security:
         - { path: ^/api/campaign/([a-zA-Z\-0-9]+)/photo, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: ["GET"] }
         - { path: ^/api/campaign/([a-zA-Z\-0-9]+)/brand_icon, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: ["GET"] }
         - { path: ^/api/campaignCategory(/[a-zA-Z\-0-9]+)?, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: ["GET"] }
-        - { path: ^/api/earningRule/list, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: ["GET"] }
         - { path: ^/api/earningRule/([a-zA-Z\-0-9]+)/photo, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: ["GET"] }
         - { path: ^/api/level/([a-zA-Z\-0-9]+)/photo, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: ["GET"] }
         - { path: ^/api/password/reset, roles: IS_AUTHENTICATED_ANONYMOUSLY }

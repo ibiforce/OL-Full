@@ -12,8 +12,8 @@ services:
       - db
     env_file:
         - .env
-    # volumes:
-    #     - '../backend:/var/www/openloyalty'
+    volumes:
+        - '../backend:/var/www/openloyalty'
   nginx:
     container_name: openloyalty_frontend
     image: divante/open-loyalty-web
@@ -27,6 +27,8 @@ services:
   elk:
     container_name: openloyalty_elk
     image: divante/open-loyalty-elasticsearch:2.2.0
+    ports:
+      - "9200:9200"
   db:
     container_name: openloyalty_db
     image: postgres:9

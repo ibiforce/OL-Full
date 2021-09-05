@@ -1,7 +1,7 @@
 app_bundle:
-    resource: "@AppBundle/Controller/EarningRuleController.php"
-    type: annotation
-    prefix: /api
+    resource: "@AppBundle/Controller/PointController.php"
+    type: "annotation"
+    prefix: "/api"
 
 open_loyalty_core:
     resource: "@OpenLoyaltyCoreBundle/Resources/config/routing.yml"
