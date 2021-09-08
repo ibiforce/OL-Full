@@ -14,8 +14,8 @@ backend/var/cache/
 
 hosts
 tools/deployment/deploy.retry
-/esdata/
-/postgres_data/
+#/esdata/
+#/postgres_data/
 frontend/yarn-error.log
 /backend/app/uploads/
 /docker/docker-compose.local.yml

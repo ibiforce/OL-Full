@@ -24,11 +24,15 @@ services:
       - "8182:3001"
       - "8183:3002"
       - "8184:3003"
+    volumes:
+        - '../frontend/final:/var/www/openloyalty'
   elk:
     container_name: openloyalty_elk
     image: divante/open-loyalty-elasticsearch:2.2.0
     ports:
       - "9200:9200"
+    volumes:
+      - '../esdata:/usr/share/elasticsearch'
   db:
     container_name: openloyalty_db
     image: postgres:9
@@ -36,6 +40,8 @@ services:
         - .env
     ports:
       - "5432:5432"
+    volumes:
+      - '../database/postgres_data:/var/lib/postgresql/data'
   mail:
     container_name: openloyalty_mail
     image: mailhog/mailhog
