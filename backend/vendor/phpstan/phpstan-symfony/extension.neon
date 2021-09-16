@@ -1,0 +1,42 @@
+parameters:
+	symfony:
+		constant_hassers: true
+
+rules:
+	- PHPStan\Rules\Symfony\ContainerInterfacePrivateServiceRule
+	- PHPStan\Rules\Symfony\ContainerInterfaceUnknownServiceRule
+
+services:
+	# service map
+	symfony.serviceMapFactory:
+		class: PHPStan\Symfony\ServiceMapFactory
+		factory: PHPStan\Symfony\XmlServiceMapFactory(%symfony.container_xml_path%)
+	-
+		class: @symfony.serviceMapFactory::create()
+
+	# ControllerTrait::get()/has() return type
+	-
+		class: PHPStan\Type\Symfony\ServiceDynamicReturnTypeExtension(Symfony\Component\DependencyInjection\ContainerInterface, %symfony.constant_hassers%)
+		tags: [phpstan.broker.dynamicMethodReturnTypeExtension]
+	-
+		class: PHPStan\Type\Symfony\ServiceDynamicReturnTypeExtension(Symfony\Bundle\FrameworkBundle\Controller\Controller, %symfony.constant_hassers%)
+		tags: [phpstan.broker.dynamicMethodReturnTypeExtension]
+	-
+		class: PHPStan\Type\Symfony\ServiceDynamicReturnTypeExtension(Symfony\Bundle\FrameworkBundle\Controller\AbstractController, %symfony.constant_hassers%)
+		tags: [phpstan.broker.dynamicMethodReturnTypeExtension]
+
+	# ControllerTrait::has() type specification
+	-
+		class: PHPStan\Type\Symfony\ServiceTypeSpecifyingExtension(Symfony\Component\DependencyInjection\ContainerInterface)
+		tags: [phpstan.typeSpecifier.methodTypeSpecifyingExtension]
+	-
+		class: PHPStan\Type\Symfony\ServiceTypeSpecifyingExtension(Symfony\Bundle\FrameworkBundle\Controller\Controller)
+		tags: [phpstan.typeSpecifier.methodTypeSpecifyingExtension]
+	-
+		class: PHPStan\Type\Symfony\ServiceTypeSpecifyingExtension(Symfony\Bundle\FrameworkBundle\Controller\AbstractController)
+		tags: [phpstan.typeSpecifier.methodTypeSpecifyingExtension]
+
+	# Request::getContent() return type
+	-
+		class: PHPStan\Type\Symfony\RequestDynamicReturnTypeExtension
+		tags: [phpstan.broker.dynamicMethodReturnTypeExtension]

@@ -31,8 +31,8 @@ services:
     image: divante/open-loyalty-elasticsearch:2.2.0
     ports:
       - "9200:9200"
-    volumes:
-      - '../esdata:/usr/share/elasticsearch'
+    #volumes:
+    #  - '../esdata:/usr/share/elasticsearch'
   db:
     container_name: openloyalty_db
     image: postgres:9
@@ -40,8 +40,8 @@ services:
         - .env
     ports:
       - "5432:5432"
-    volumes:
-      - '../database/postgres_data:/var/lib/postgresql/data'
+    # volumes:
+    #   - '../database/postgres_data:/var/lib/postgresql/data'
   mail:
     container_name: openloyalty_mail
     image: mailhog/mailhog

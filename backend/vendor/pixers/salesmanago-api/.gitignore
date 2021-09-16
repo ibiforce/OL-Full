@@ -1,0 +1,14 @@
+composer.lock
+composer.phar
+phpunit.phar
+vendor/
+phpunit.xml
+
+# Directories used by IDEs
+nbproject
+.idea
+*~
+.project
+.settings
+.DS_STORE
+*.DS_Store
