@@ -13,6 +13,7 @@ use OpenLoyalty\Bundle\CampaignBundle\Model\CampaignCategory;
 use OpenLoyalty\Bundle\CampaignBundle\Model\CampaignVisibility;
 use OpenLoyalty\Bundle\EarningRuleBundle\DataFixtures\ORM\LoadEarningRuleData;
 use OpenLoyalty\Bundle\LevelBundle\DataFixtures\ORM\LoadLevelData;
+use OpenLoyalty\Bundle\PosBundle\DataFixtures\ORM\LoadPosData;
 use OpenLoyalty\Bundle\SegmentBundle\DataFixtures\ORM\LoadSegmentData;
 use OpenLoyalty\Component\Campaign\Domain\CampaignCategoryId;
 use OpenLoyalty\Component\Campaign\Domain\CampaignId;
@@ -20,6 +21,7 @@ use OpenLoyalty\Component\Campaign\Domain\Command\CreateCampaign;
 use OpenLoyalty\Component\Campaign\Domain\Command\CreateCampaignCategory;
 use OpenLoyalty\Component\Campaign\Domain\LevelId;
 use OpenLoyalty\Component\Campaign\Domain\Model\Coupon;
+use OpenLoyalty\Component\Campaign\Domain\PosId;
 use OpenLoyalty\Component\Campaign\Domain\SegmentId;
 use OpenLoyalty\Component\Core\Domain\Model\Label;
 use Symfony\Bridge\Doctrine\Tests\Fixtures\ContainerAwareFixture;
@@ -38,7 +40,8 @@ class LoadCampaignData extends ContainerAwareFixture
 
     const CAMPAIGN_CATEGORY1_ID = '000096cf-32a3-43bd-9034-4df343e5fd99';
     const CAMPAIGN_CATEGORY2_ID = '000096cf-32a3-43bd-9034-4df343e5fd98';
-
+    
+    const POS_ID = '00000000-0000-474c-1111-b0dd880c07e2';
     /**
      * {@inheritdoc}
      */
@@ -69,8 +72,13 @@ class LoadCampaignData extends ContainerAwareFixture
         $campaign->setPublic(true);
         $campaign->setUnlimited(false);
         $campaign->setLimitPerUser(2);
-        $campaign->setLevels([new LevelId(LoadLevelData::LEVEL2_ID)]);
-        $campaign->setSegments([new SegmentId(LoadSegmentData::SEGMENT2_ID)]);
+        $campaign->setLevels([
+            new LevelId(LoadLevelData::LEVEL0_ID),
+            new LevelId(LoadLevelData::LEVEL1_ID),
+            new LevelId(LoadLevelData::LEVEL2_ID),
+            new LevelId(LoadLevelData::LEVEL3_ID)
+        ]);
+        // $campaign->setSegments([new SegmentId(LoadSegmentData::SEGMENT2_ID)]);
         $campaign->setCoupons([new Coupon('123'), new Coupon('1234'), new Coupon('12345'), new Coupon('123456')]);
         $campaign->setReward(Campaign::REWARD_TYPE_DISCOUNT_CODE);
         $campaign->setName('Test configured campaign');
@@ -96,6 +104,9 @@ class LoadCampaignData extends ContainerAwareFixture
         $campaign->setCategories([
             new CampaignCategoryId(self::CAMPAIGN_CATEGORY1_ID),
             // new CampaignCategoryId(self::CAMPAIGN_CATEGORY2_ID),
+        ]);
+        $campaign->setPosId([
+            new PosId(LoadPosData::POS_ID),
         ]);
 
         $this->container->get('broadway.command_handling.command_bus')->dispatch(

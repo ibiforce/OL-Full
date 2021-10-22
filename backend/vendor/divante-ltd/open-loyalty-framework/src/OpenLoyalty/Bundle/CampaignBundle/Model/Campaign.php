@@ -87,6 +87,7 @@ class Campaign extends BaseCampaign
             'connectType' => $this->connectType,
             'earningRuleId' => $this->earningRuleId,
             'fulfillmentTracking' => $this->fulfillmentTracking,
+            'posId'=> $this->posId,
         ];
     }
 

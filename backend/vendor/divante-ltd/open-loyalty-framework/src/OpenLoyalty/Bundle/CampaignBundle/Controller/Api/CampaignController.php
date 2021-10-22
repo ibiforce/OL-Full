@@ -554,6 +554,7 @@ class CampaignController extends FOSRestController
             [
                 'campaigns' => $campaigns,
                 'total' => $total,
+                'test' => 'ihsan bagus',
             ],
             Response::HTTP_OK
         );

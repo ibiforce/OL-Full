@@ -9,6 +9,7 @@ use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
 use OpenLoyalty\Bundle\CampaignBundle\Form\DataTransformer\CategoriesDataTransformer;
 use OpenLoyalty\Bundle\CampaignBundle\Form\DataTransformer\CouponsDataTransformer;
 use OpenLoyalty\Bundle\CampaignBundle\Form\DataTransformer\LevelsDataTransformer;
+use OpenLoyalty\Bundle\CampaignBundle\Form\DataTransformer\PosDataTransformer;
 use OpenLoyalty\Bundle\CampaignBundle\Form\DataTransformer\SegmentsDataTransformer;
 use OpenLoyalty\Bundle\CampaignBundle\Form\Event\FulfillmentTrackingFieldGiftCampaignTypeSubscriber;
 use OpenLoyalty\Bundle\CampaignBundle\Model\Campaign;
@@ -173,6 +174,22 @@ class CampaignFormType extends AbstractType
                 'allow_delete' => true,
                 'error_bubbling' => false,
             ])->addModelTransformer(new SegmentsDataTransformer())
+        );
+        $builder->add(
+            $builder->create('posId', CollectionType::class, [
+                'entry_type' => TextType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'error_bubbling' => false,
+            ])->addModelTransformer(new PosDataTransformer())
+        );
+        $builder->add(
+            $builder->create('pos_id', CollectionType::class, [
+                'entry_type' => TextType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'error_bubbling' => false,
+            ])->addModelTransformer(new PosDataTransformer())
         );
 
         $builder->add('campaignActivity', CampaignActivityFormType::class, [

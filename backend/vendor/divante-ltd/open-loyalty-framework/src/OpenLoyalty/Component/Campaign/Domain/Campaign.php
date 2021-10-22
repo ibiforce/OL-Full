@@ -203,6 +203,11 @@ class Campaign
     protected $fulfillmentTracking = false;
 
     /**
+     * @var PosId[]
+     */
+    protected $posId = [];
+
+    /**
      * Campaign constructor.
      *
      * @param CampaignId|null $campaignId
@@ -390,6 +395,10 @@ class Campaign
                     $this->removeTranslation($translation);
                 }
             }
+        }
+
+        if (isset($data['posId'])) {
+            $this->posId = $data['posId'];
         }
     }
 
@@ -658,6 +667,22 @@ class Campaign
     }
 
     /**
+     * @return PosId[]
+     */
+    public function getPosId()
+    {
+        return $this->posId;
+    }
+
+    /**
+     * @param PosId[] $posId
+     */
+    public function setPosId($posId)
+    {
+        $this->posId = $posId;
+    }
+
+    /**
      * @param array $data
      *
      * @throws \Assert\AssertionFailedException
@@ -682,6 +707,9 @@ class Campaign
         Assert::keyIsset($data, 'segments');
         Assert::isArray($data['segments']);
         Assert::allIsInstanceOf($data['segments'], SegmentId::class);
+        Assert::keyIsset($data, 'posId');
+        Assert::isArray($data['posId']);
+        Assert::allIsInstanceOf($data['posId'], PosId::class);
         Assert::true(count($data['segments']) > 0 || count($data['levels']) > 0, 'There must be at least one level or one segment');
 
         if (!in_array($data['reward'], [self::REWARD_TYPE_CASHBACK, self::REWARD_TYPE_PERCENTAGE_DISCOUNT_CODE, self::REWARD_TYPE_CUSTOM_CAMPAIGN_CODE], true)) {
@@ -736,6 +764,13 @@ class Campaign
         return array_map(function (SegmentId $segmentId) {
             return $segmentId->__toString();
         }, $this->segments);
+    }
+
+    public function getFlatPosId()
+    {
+        return array_map(function (PosId $posId) {
+            return $posId->__toString();
+        }, $this->posId);
     }
 
     public function getFlatCoupons()
